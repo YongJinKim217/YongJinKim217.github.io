@@ -68,6 +68,7 @@
         snake.die = function () {
             alert("You died!");
             alert(`Your final length was ${snake.length - 1}`);
+            alert("Press the spacebar to try again");
             alive = false;
         };
 
@@ -125,12 +126,21 @@
         };
 
         makeFood()
+
+        var revive = "idk";
+
         setInterval(function () {
             if (!alive) {
-                return
+                $("body").keydown(function (event) {
+                    revive = event.keyCode;
+                });
+                if (revive == 32) {
+                    window.location.reload();
+                }
+            } else {
+                snake.move();
+                snake.draw();
             }
-            snake.move();
-            snake.draw();
         }, 250);
     </script>
 </body>
