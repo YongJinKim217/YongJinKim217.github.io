@@ -43,10 +43,109 @@
             ctx.fillRect(x, y, 24, 24);
         };
 
-        var foodCube = function (x, y) {
+        var coolFood = function (x, y) {
+            ctx.fillStyle = "Chocolate";
+            ctx.fillRect(x + 11.25, y - 8, 3.5, 8.5);
+            ctx.fillStyle = "Lime";
+            ctx.fillRect(x + 14.75, y - 8, 8, 4.5);
+            ctx.beginPath();
+            ctx.arc(x + 12.5, y + 12.5, 12.5, 0, Math.PI * 2, false);
             ctx.fillStyle = "Red";
-            ctx.fillRect(x, y, 24, 24);
+            ctx.fill();
         };
+
+        var makeHead = function (x, y, direction) {
+            ctx.fillStyle = "Turquoise";
+            ctx.fillRect(x, y, 24, 24);
+            ctx.strokeStyle = "Black";
+            if (direction === "left") {
+                ctx.fillStyle = "White";
+                ctx.beginPath();
+                ctx.arc(x, y, 6.25, 0, Math.PI * 2, false);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x, y, 6.25, 0, Math.PI * 2, false);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(x, y + 25, 6.25, 0, Math.PI * 2, false);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x, y + 25, 6.25, 0, Math.PI * 2, false);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.fillStyle = "Black";
+                ctx.arc(x - 3.125, y, 3.125, 0, Math.PI * 2, false);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x - 3.125, y + 25, 3.125, 0, Math.PI * 2, false);
+                ctx.fill();
+            } else if (direction === "right") {
+                ctx.fillStyle = "White";
+                ctx.beginPath();
+                ctx.arc(x + 25, y, 6.25, 0, Math.PI * 2, false);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x + 25, y, 6.25, 0, Math.PI * 2, false);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(x + 25, y + 25, 6.25, 0, Math.PI * 2, false);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x + 25, y + 25, 6.25, 0, Math.PI * 2, false);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.fillStyle = "Black";
+                ctx.arc(x + 28.125, y, 3.125, 0, Math.PI * 2, false);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x + 28.125, y + 25, 3.125, 0, Math.PI * 2, false);
+                ctx.fill();
+            } else if (direction === "up") {
+                ctx.fillStyle = "White";
+                ctx.beginPath();
+                ctx.arc(x, y, 6.25, 0, Math.PI * 2, false);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x, y, 6.25, 0, Math.PI * 2, false);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(x + 25, y, 6.25, 0, Math.PI * 2, false);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x + 25, y, 6.25, 0, Math.PI * 2, false);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.fillStyle = "Black";
+                ctx.arc(x, y - 3.125, 3.125, 0, Math.PI * 2, false);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x + 25, y - 3.125, 3.125, 0, Math.PI * 2, false);
+                ctx.fill();
+            } else if (direction === "down") {
+                ctx.fillStyle = "White";
+                ctx.beginPath();
+                ctx.arc(x, y + 25, 6.25, 0, Math.PI * 2, false);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x, y + 25, 6.25, 0, Math.PI * 2, false);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(x + 25, y + 25, 6.25, 0, Math.PI * 2, false);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x + 25, y + 25, 6.25, 0, Math.PI * 2, false);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.fillStyle = "Black";
+                ctx.arc(x, y + 28.125, 3.125, 0, Math.PI * 2, false);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x + 25, y + 28.125, 3.125, 0, Math.PI * 2, false);
+                ctx.fill();
+            }
+        };
+
+
 
         var actions = {
             65: "left",
@@ -120,11 +219,12 @@
             ctx.fillStyle = "White";
             ctx.fillRect(0, 0, 400, 400);
             ctx.strokeStyle = "Black";
-            ctx.strokeRect(0, 0, 400, 400)
-            for (i = 0; i < snake.length; i++) {
+            ctx.strokeRect(0, 0, 400, 400);
+            makeHead(snake[0].x * 25, snake[0].y * 25, direction);
+            for (i = 1; i < snake.length; i++) {
                 cube(snake[i].x * 25, snake[i].y * 25);
             }
-            foodCube(food.x * 25, food.y * 25);
+            coolFood(food.x * 25, food.y * 25);
         };
 
         makeFood()
