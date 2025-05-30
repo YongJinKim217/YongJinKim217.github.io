@@ -8,6 +8,8 @@
 <body>
     <h1>SNAKE!</h1>
 
+    <p id="score">score: 0</p>
+
     <canvas id="canvas" width="400" height="400"></canvas>
 
     <p><em>By:</em> Francis and Jin, <em>For:</em> Genius Project</p>
@@ -25,6 +27,8 @@
 
         ctx.fillStyle = "White";
         ctx.fillRect(0, 0, 400, 400);
+
+        var score = 0;
 
         var snake = [
             { x: 8, y: 8 },
@@ -51,6 +55,17 @@
             ctx.beginPath();
             ctx.arc(x + 12.5, y + 12.5, 12.5, 0, Math.PI * 2, false);
             ctx.fillStyle = "Red";
+            ctx.fill();
+        };
+
+        var goldFood = function (x, y) {
+            ctx.fillStyle = "Chocolate";
+            ctx.fillRect(x + 11.25, y - 8, 3.5, 8.5);
+            ctx.fillStyle = "Lime";
+            ctx.fillRect(x + 14.75, y - 8, 8, 4.5);
+            ctx.beginPath();
+            ctx.arc(x + 12.5, y + 12.5, 12.5, 0, Math.PI * 2, false);
+            ctx.fillStyle = "Gold";
             ctx.fill();
         };
 
@@ -155,20 +170,24 @@
         };
 
         var makeFood = function () {
-            var foodY = Math.floor(Math.random() * 16)
-            var foodX = Math.floor(Math.random() * 16)
+            var foodY = Math.floor(Math.random() * 16);
+            var foodX = Math.floor(Math.random() * 16);
             for (i = 0; i < snake.length; i++) {
                 if (snake[i].x === foodX && snake[i].y === foodY) {
                     makeFood();
-                    return
+                    return;
                 }
             }
-            food = { x: foodX, y: foodY };
+            if (Math.floor(Math.random() * 5) === 4) {
+                food = { x: foodX, y: foodY, gold: true };
+                return;
+            }
+            food = { x: foodX, y: foodY, gold: false };
         };
 
         snake.die = function () {
             alert("You died!");
-            alert(`Your final length was ${snake.length - 1}`);
+            alert(`Your final length was ${snake.length - 1} and your score was ${score}`);
             alert("Press the spacebar to try again");
             alive = false;
         };
@@ -183,8 +202,15 @@
                 }
             }
             if (snake[0].x === food.x && snake[0].y === food.y) {
-                makeFood()
-                return "eaten";
+                if (food.gold) {
+                    score += 2;
+                    makeFood();
+                    return "eaten gold";
+                } else {
+                    score += 1;
+                    makeFood();
+                    return "eaten";
+                }
             } else {
                 return "normal";
             }
@@ -216,6 +242,7 @@
         };
 
         snake.draw = function () {
+            $("#score").text(`score: ${score}`);
             ctx.fillStyle = "White";
             ctx.fillRect(0, 0, 400, 400);
             ctx.strokeStyle = "Black";
@@ -224,7 +251,11 @@
             for (i = 1; i < snake.length; i++) {
                 cube(snake[i].x * 25, snake[i].y * 25);
             }
-            coolFood(food.x * 25, food.y * 25);
+            if (food.gold) {
+                goldFood(food.x * 25, food.y * 25);
+            } else {
+                coolFood(food.x * 25, food.y * 25);
+            }
         };
 
         makeFood()
