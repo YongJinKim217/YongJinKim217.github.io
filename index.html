@@ -28,6 +28,8 @@
         ctx.fillStyle = "White";
         ctx.fillRect(0, 0, 400, 400);
 
+        var invis = 0
+
         var score = 0;
 
         var snake = [
@@ -247,6 +249,9 @@
             ctx.fillRect(0, 0, 400, 400);
             ctx.strokeStyle = "Black";
             ctx.strokeRect(0, 0, 400, 400);
+            if (invis > 0) {
+                return;
+            }
             makeHead(snake[0].x * 25, snake[0].y * 25, direction);
             for (i = 1; i < snake.length; i++) {
                 cube(snake[i].x * 25, snake[i].y * 25);
@@ -256,6 +261,7 @@
             } else {
                 coolFood(food.x * 25, food.y * 25);
             }
+            invis -= 1;
         };
 
         makeFood()
@@ -273,6 +279,9 @@
             } else {
                 snake.move();
                 snake.draw();
+            }
+            if (snake.length % 50 === 0) {
+                invis = 4;
             }
         }, 250);
     </script>
